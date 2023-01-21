@@ -18,6 +18,8 @@ export const serverSchema = z.object({
 	),
 	DISCORD_CLIENT_ID: z.string(),
 	DISCORD_CLIENT_SECRET: z.string(),
+	SLACK_CLIENT_ID: z.string(),
+	SLACK_CLIENT_SECRET: z.string(),
 });
 
 /**
@@ -32,6 +34,8 @@ export const serverEnv = {
 	NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 	DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
 	DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+	SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID,
+	SLACK_CLIENT_SECRET: process.env.SLACK_CLIENT_SECRET,
 };
 
 /**
