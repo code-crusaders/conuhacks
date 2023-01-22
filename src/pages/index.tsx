@@ -7,6 +7,7 @@ import styles from "../styles/Home.module.css";
 import BubbleDetail from "../components/BubbleDetail";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
+import { text } from "stream/consumers";
 
 type Message = {
 	username: string;
@@ -52,11 +53,8 @@ const Home: NextPage = () => {
 			</Head>
 			<Header />
 			<main className={styles.background}>
-				<BubbleDetail></BubbleDetail>
 				{messages.map((message, i) => (
-					<div key={parseFloat(message.timestamp) + i} className="text-white">
-						<h1>{message.text}</h1>
-					</div>
+					<BubbleDetail name={message.username} avatar={message.avatar} text={message.text}/>
 				))}
 			</main>
 		</>
