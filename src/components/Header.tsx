@@ -10,7 +10,7 @@ export default function Header() {
 
 	return (
 		<nav className={styles.nav}>
-			<div className={styles.logo}>LOGO</div>
+			<Image className={styles.logo} src="/logo.svg" alt="Logo" width={40} height={40} />
 
 			<button className={styles.button} onClick={() => (sessionData ? void signOut() : void signIn())}>
 				{sessionData ? "Sign out" : "Sign in"}

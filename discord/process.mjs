@@ -25,7 +25,10 @@ client.on("messageCreate", message => {
 	const avatar = message.author.displayAvatarURL();
 	const roles = guild?.roles.cache.filter(r => r.members.has(message.author.id)).map(r => r.name);
 	const channel = guild?.channels.cache.filter(c => c.id === message.channelId);
-	const text = message.content;
+	const text = message.content.replace(/@\d+)/g, (match, id) => {
+		const user = client.users.cache.get(id);
+		return user ? `@${user.username}` : match;
+	});
 	const timestamp = message.createdAt;
 
 	const data = {
