@@ -5,17 +5,13 @@ export default function Header() {
 	const { data: sessionData } = useSession();
 	return (
 		<nav className={styles.nav}>
-			<div className={styles.left}>
-				<div className={styles.logo}>LOGO</div>
-			</div>
+			<div className={styles.logo}>LOGO</div>
 
-			<div className={styles.right}>
-				<button className={styles.button} onClick={() => (sessionData ? void signOut() : void signIn())}>
-					{sessionData ? "Sign out" : "Sign in"}
-				</button>
+			<button className={styles.button} onClick={() => (sessionData ? void signOut() : void signIn())}>
+				{sessionData ? "Sign out" : "Sign in"}
+			</button>
 
-				<div className={styles.profileImage}></div>
-			</div>
+			<div className={styles.profile}></div>
 		</nav>
 	);
 }

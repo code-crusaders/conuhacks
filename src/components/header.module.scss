@@ -1,37 +1,40 @@
 .nav {
-    background: #264653;
-    border-bottom: 1px solid #ddd;
-    box-shadow: 0 0 8px rgba(0,0,0,.1);
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem;
+	background: var(--background);
+	box-shadow: 2px 2px 4px var(--dark);
+	gap: 0.5rem;
+	height: var(--navbar-height);
 }
 
-.profileImage {
-    background: #287170;
-    box-shadow: inset 2px 2px 4px rgba(0,0,0,.5);
-    border-radius: 50%;
-    width: 50px;
-    height:  50px;
-  }
+.profile {
+	width: 3rem;
+	background: var(--light);
+	box-shadow: inset 2px 2px 4px var(--dark);
+	border-radius: 50%;
+}
 
 .logo {
-color: #debd69;
-font-size: 32px;
-font-weight: 900;
-font-style: italic;
+	color: #debd69;
+	font-size: 2rem;
+	font-weight: 900;
+	font-style: italic;
 }
 
 .button {
-    border: none;
-    border-radius: 8px;
-    background: #287170;
-    color: #e76f51;
-    padding: 8px 24px;
-  }
-  
-.left, .right {
-display: flex;
-align-items: center;
-gap: 16px;
+	padding: 0.5rem 1.5rem;
+	background: var(--light);
+	box-shadow: inset 2px 2px 4px var(--dark);
+	border-radius: 0.5rem;
+	border: none;
+	color: var(--text);
+	margin-left: auto;
+
+	&:hover {
+		background: var(--hover);
+	}
+	&:active {
+		background: var(--active);
+	}
 }

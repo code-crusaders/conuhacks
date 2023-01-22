@@ -1,0 +1,4 @@
+.background {
+    background: var(--dark);
+    height: calc(100vh - var(--navbar-height));
+}

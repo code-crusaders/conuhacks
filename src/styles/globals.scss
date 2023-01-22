@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--dark: hsl(10, 10%, 0%);
+	--background: hsl(10, 10%, 10%);
+	--light: hsl(10, 10%, 2%);
+	--hover: hsl(10, 10%, 3%);
+	--active: hsl(10, 10%, 4%);
+	--text: hsl(10, 10%, 90%);
+	--navbar-height: 4rem;
+}
