@@ -32,8 +32,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			const timestamp = message.event.ts;
 
 			const data = {
-				...user,
-				...channel,
+				username: user.real_name,
+				avatar: user.image_original,
+				channel: {
+					name: channel.channel,
+					description: channel.purpose,
+				},
 				text,
 				timestamp,
 			};

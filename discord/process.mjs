@@ -1,8 +1,8 @@
 import { spawn } from "child_process";
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-import io from "socket.io-client";
 dotenv.config();
+import io from "socket.io-client";
 
 const socket = io("http://localhost:3001");
 
@@ -25,8 +25,6 @@ client.on("messageCreate", message => {
 	const avatar = message.author.displayAvatarURL();
 	const roles = guild?.roles.cache.filter(r => r.members.has(message.author.id)).map(r => r.name);
 	const channel = guild?.channels.cache.filter(c => c.id === message.channelId);
-	const channelName = channel?.name;
-	const channelDescription = channel?.topic;
 	const text = message.content;
 	const timestamp = message.createdAt;
 
@@ -34,8 +32,10 @@ client.on("messageCreate", message => {
 		username,
 		avatar,
 		roles,
-		channelName,
-		channelDescription,
+		channel: {
+			name: channel?.name,
+			description: channel?.topic,
+		},
 		text,
 		timestamp,
 	};

@@ -6,13 +6,13 @@ import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
 type Message = {
-	real_name: string;
-	display_name: string;
-	first_name: string;
-	last_name: string;
-	image_original: string;
-	channel: string;
-	purpose: string;
+	username: string;
+	avatar: string;
+	roles?: string[];
+	channel: {
+		name: string;
+		description: string;
+	};
 	text: string;
 	timestamp: string;
 };
