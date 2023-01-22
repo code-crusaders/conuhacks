@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				timestamp,
 			};
 
-			const child = spawn("python", ["./src/python/process.py", JSON.stringify(data)]);
+			const child = spawn("python", ["./python/process.py", JSON.stringify(data)]);
 
 			// Only capture the first message for each timestamp
 			if (timestampsCache.has(timestamp)) {
