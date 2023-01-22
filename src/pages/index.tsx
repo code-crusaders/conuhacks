@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 		});
 
 		socket.on("message", (message: Message) => {
-			setMessages(prevMessages => [...prevMessages, message]);
+			setMessages(prevMessages => [...new Set([...prevMessages, message])]);
 		});
 
 		return () => {
