@@ -1,17 +1,19 @@
+import styles from "./BubbleDetail.module.scss";
+
 export default function BubbleDetail() {
 	return (
-		<div className="x">
-			<div className="y">
-				<div className="blob">
-					<section id="postContainer">
-						<header>
-							<div id="poster">
-								<img id="icon" src="/imgs/favicon.ico" width="40px" height="40px"></img>
+		<div className={styles.x}>
+			<div className={styles.y}>
+				<div className={styles.blob}>
+					<section id={styles.postContainer}>
+						<header id={styles.userInfo}>
+							<div id={styles.poster}>
+								<img id="icon" src="../../public/imgs/rubber-duck.png" width="40px" height="40px"></img>
 								<h3 id="username">username</h3>
 							</div>
 						</header>
 						<main>
-							<div id="textbox">
+							<div id={styles.textbox}>
 								<p>
 									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 									labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
