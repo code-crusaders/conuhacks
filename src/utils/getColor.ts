@@ -1,23 +1,18 @@
-import { map } from "@trpc/server/observable";
-import "./../pages/index.tsx"
+import "./../pages/index.tsx";
 
-function getMap(){
-    const map = new Map();
-    map.set(0, "#F94144");
-    map.set(1, "#F3722C");
-    map.set(2, "#F8961E");
-    map.set(3, "#90BE6D");
-    map.set(4, "#43AA8B");
-    return map;
+const map = new Map([
+	[0, "#F94144"],
+	[1, "#F3722C"],
+	[2, "#F8961E"],
+	[3, "#90BE6D"],
+	[4, "#43AA8B"],
+] as const);
+
+export default function getColor() {
+	const randomint = getRandomInt();
+	return map.get(randomint);
 }
 
-export default function getColor (){
-    const map = getMap();
-    const randomint = getRandomInt();
-    return map.get(randomint);
+function getRandomInt() {
+	return Math.floor(Math.random() * 5) as 0 | 1 | 2 | 3 | 4;
 }
-
-function getRandomInt(){
-    return Math.floor(Math.random() * 5);
-}
-

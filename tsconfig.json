@@ -33,6 +33,9 @@
     "../tailwind.config.cjs"
 , "src/discord/process.cks", "sockets/socket.mjs"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "python",
+    "socket",
+    "discord"
   ]
 }
