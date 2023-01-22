@@ -20,6 +20,9 @@ export const serverSchema = z.object({
 	DISCORD_CLIENT_SECRET: z.string(),
 	SLACK_CLIENT_ID: z.string(),
 	SLACK_CLIENT_SECRET: z.string(),
+	DISCORD_TOKEN: z.string(),
+	SLACK_USER_TOKEN: z.string(),
+	SLACK_BOT_TOKEN: z.string(),
 });
 
 /**
@@ -36,6 +39,9 @@ export const serverEnv = {
 	DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 	SLACK_CLIENT_ID: process.env.SLACK_CLIENT_ID,
 	SLACK_CLIENT_SECRET: process.env.SLACK_CLIENT_SECRET,
+	DISCORD_TOKEN: process.env.DISCORD_TOKEN,
+	SLACK_USER_TOKEN: process.env.SLACK_USER_TOKEN,
+	SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN,
 };
 
 /**

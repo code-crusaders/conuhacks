@@ -1,8 +1,38 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/Header";
+import styles from "../styles/Home.module.css";
+import { io } from "socket.io-client";
+import { useState } from "react";
+const socket = io("http://localhost:3001");
+
+type Message = {
+	real_name: string;
+	display_name: string;
+	first_name: string;
+	last_name: string;
+	image_original: string;
+	channel: string;
+	purpose: string;
+	text: string;
+	timestamp: string;
+};
 
 const Home: NextPage = () => {
+	const [messages, setMessages] = useState<Message[]>([]);
+	socket.on("connect", () => {
+		console.log("Connected to server");
+	});
+
+	socket.on("disconnect", () => {
+		console.log("Disconnected from server");
+	});
+
+	socket.on("message", (message: Message) => {
+		console.log(message);
+		setMessages(messages => [...messages, message]);
+	});
+
 	return (
 		<>
 			<Head>
@@ -11,7 +41,13 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header />
-			<main className="p-4"></main>
+			<main className={styles.background}>
+				{messages.map((message, i) => (
+					<div key={parseFloat(message.timestamp) + i} className="text-white">
+						<h1>{message.text}</h1>
+					</div>
+				))}
+			</main>
 		</>
 	);
 };
