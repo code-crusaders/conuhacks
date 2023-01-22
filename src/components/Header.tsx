@@ -1,18 +1,29 @@
 import { useSession, signIn, signOut } from "next-auth/react";
+import styles from "./header.module.scss";
 
 export default function Header() {
-    const { data: sessionData } = useSession();
-    return (
-        <>
-            <nav>
-			    <h1 id="nav">Company Name</h1> 
+	const { data: sessionData } = useSession();
+	return (
+		<nav className={styles.nav}>
 
-				<button onClick={() => (sessionData ? void signOut() : void signIn())}>
-					{sessionData ? "Sign out" : "Sign in"}
-				</button>
+            <div className={styles.left}>
+                <div className={styles.logo}>
+                LOGO
+                </div>
+            </div>
 
-				<img id="placeholder" src="../../public/rubber-duckie.png" height="50" width="50"></img>
-			</nav>
-        </>
-    )
+            <div className={styles.right}>
+                <button className={styles.button} onClick={() => (sessionData ? void signOut() : void signIn())}>
+                    {sessionData ? "Sign out" : "Sign in"}
+                </button>
+
+                <button className={styles.button} onClick={() => (sessionData ? void signOut() : void signIn())}>
+                    {sessionData ? "" : "Sign up"}
+                </button>
+
+                <div className={styles.profileImage}></div>
+            </div>
+
+		</nav>
+	);
 }
