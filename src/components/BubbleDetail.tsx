@@ -12,15 +12,15 @@ export default function BubbleDetail({ name, avatar, text }: BubbleDetailProps) 
 		<div className={styles.x}>
 			<div className={styles.y}>
 				<div className={styles.blob}>
-					<section id={styles.postContainer}>
-						<header id={styles.userInfo}>
-							<div id={styles.poster}>
-								<img id="icon" src={ avatar } width="40px" height="40px"></img>
-								<h3 id="username">{ name }</h3>
+					<section className={styles.postContainer}>
+						<header className={styles.userInfo}>
+							<div className={styles.poster}>
+								<img className="icon" src={ avatar } width="40px" height="40px"></img>
+								<h3 className="username">{ name }</h3>
 							</div>
 						</header>
 						<main>
-							<div id={styles.textbox}>
+							<div className={styles.textbox}>
 								<p>
 									{ text }
 								</p>

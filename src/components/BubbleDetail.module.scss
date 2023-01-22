@@ -1,4 +1,5 @@
 $size: 300px;
+vw
 
 .x{
   animation: x 13s linear infinite alternate;
@@ -48,13 +49,13 @@ $size: 300px;
 /*#MOVE BLOB*/
 @keyframes x {
   100% {
-    transform: translateX( calc(100vw - #{$size}) );
+    transform: translateX( calc(50vw - #{$size}) );
   }
 }
 
 @keyframes y {
   100% {
-    transform: translateY( calc(100vh - #{$size}) );
+    transform: translateY( calc(50vh - #{$size}) );
   }
 }
 
@@ -68,7 +69,7 @@ $size: 300px;
   animation-play-state: paused;
 }
 
-#postContainer {
+.postContainer {
     transition: 400ms;
     scale: 0;
     display: flex;
@@ -82,7 +83,7 @@ $size: 300px;
     background-color: var(--light-yellow);
 }
 
-header #userInfo {
+.userInfo {
     width: var(--width);
     height: calc(var(--height) * 0.15);
     border-top-right-radius: var(--border-radius);
@@ -90,17 +91,17 @@ header #userInfo {
     background-color: var(--yellow);
 }
 
-#poster {
+.poster {
     display: flex;
     align-items: center;
 }
 
-#icon {
+.icon {
     padding: var(--padding);
     padding-bottom: 5px;
 }
 
-#username {
+.username {
     width:fit-content;
     height: fit-content;
     margin-right: calc(var(--width) * 0.7);
@@ -108,7 +109,7 @@ header #userInfo {
 /*#endregion*/
 
 /*#region MIDDLE*/
-#textbox {
+.textbox {
     width: calc(var(--width) * 0.9);
     min-height: 175px;
     display: block;
