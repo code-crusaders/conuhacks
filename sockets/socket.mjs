@@ -10,18 +10,18 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", socket => {
-	console.log("a user connected");
+	console.log("Connected");
 
 	socket.on("message", message => {
-		// Broadcast the message to all connected clients
-		io.emit("message", message);
+		// Broadcast the message to all connected clients excluding the sender
+		socket.broadcast.emit("message", message);
 	});
 
 	socket.on("disconnect", () => {
-		console.log("user disconnected");
+		console.log("Disconnected");
 	});
 });
 
 httpServer.listen(3001, () => {
-	console.log("listening on *:3001");
+	console.log("Listening on :3001");
 });

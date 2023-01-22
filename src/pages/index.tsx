@@ -3,8 +3,7 @@ import Head from "next/head";
 import Header from "../components/Header";
 import styles from "../styles/Home.module.css";
 import { io } from "socket.io-client";
-import { useState } from "react";
-const socket = io("http://localhost:3001");
+import { useEffect, useState } from "react";
 
 type Message = {
 	real_name: string;
@@ -20,18 +19,26 @@ type Message = {
 
 const Home: NextPage = () => {
 	const [messages, setMessages] = useState<Message[]>([]);
-	socket.on("connect", () => {
-		console.log("Connected to server");
-	});
 
-	socket.on("disconnect", () => {
-		console.log("Disconnected from server");
-	});
+	useEffect(() => {
+		const socket = io("http://localhost:3001");
 
-	socket.on("message", (message: Message) => {
-		console.log(message);
-		setMessages(messages => [...messages, message]);
-	});
+		socket.on("connect", () => {
+			console.info("Connected");
+		});
+
+		socket.on("disconnect", () => {
+			console.info("Disconnected");
+		});
+
+		socket.on("message", (message: Message) => {
+			setMessages(prevMessages => [...prevMessages, message]);
+		});
+
+		return () => {
+			socket.disconnect();
+		};
+	}, []);
 
 	return (
 		<>

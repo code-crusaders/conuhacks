@@ -1,12 +1,13 @@
 import { spawn } from "child_process";
-import { io } from "socket.io-client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { io } from "socket.io-client";
 import { env } from "../../../env/server.mjs";
-import fs from "fs";
 
 const socket = io("http://localhost:3001");
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+const timestampsCache: Set<string> = new Set();
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	// Disable CORS
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
@@ -22,9 +23,43 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 
 	if (isSlackEvent(req.body)) {
-		void handleSlackEvent(req);
-	}
+		const message = req.body;
 
+		try {
+			const user = await getUser(message.event.user);
+			const channel = await getChannel(message.event.channel);
+			const text = await getText(message.event.text);
+			const timestamp = message.event.ts;
+
+			const data = {
+				...user,
+				...channel,
+				text,
+				timestamp,
+			};
+
+			const child = spawn("python", ["./src/python/process.py", JSON.stringify(data)]);
+
+			// Only capture the first message for each timestamp
+			if (timestampsCache.has(timestamp)) {
+				return;
+			}
+			timestampsCache.add(timestamp);
+			console.log(timestampsCache);
+
+			child.stdout.once("data", (data: Buffer) => {
+				const response = JSON.parse(data.toString()) as {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					[key: string]: any;
+				};
+				console.info("Sending to Web Socket");
+				socket.emit("message", response);
+			});
+		} catch (error) {
+			console.error(error);
+		}
+		res.status(200).end();
+	}
 	res.status(404).end();
 }
 
@@ -38,45 +73,6 @@ type SlackChallenge = {
 function isSlackChallenge(body: any): body is SlackChallenge {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 	return body.type === "url_verification";
-}
-
-async function handleSlackEvent(req: NextApiRequest) {
-	const message = req.body as SlackEvent;
-
-	try {
-		const user = await getUser(message.event.user);
-		const channel = await getChannel(message.event.channel);
-		const text = await getText(message.event.text);
-		const timestamp = message.event.ts;
-
-		const data = {
-			...user,
-			...channel,
-			text,
-			timestamp,
-		};
-
-		fs.appendFile("./data.txt", `${JSON.stringify(data)}\n`, err => {
-			if (err) {
-				console.error(err);
-			}
-		});
-
-		const child = spawn("python", ["./src/python/process.py", JSON.stringify(data)]);
-		child.stdout.on("data", (data: Buffer) => {
-			const response = JSON.parse(data.toString()) as {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				[key: string]: any;
-			};
-			console.info("Sending to Web Socket", response);
-			socket.emit("message", response);
-		});
-		child.stderr.on("data", (data: Buffer) => {
-			console.error(`stderr: ${data.toString()}`);
-		});
-	} catch (error) {
-		console.error(error);
-	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
