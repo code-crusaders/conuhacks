@@ -51,13 +51,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			timestampsCache.add(timestamp);
 			console.log(timestampsCache);
 
-			child.stdout.once("data", (data: Buffer) => {
-				const response = JSON.parse(data.toString()) as {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					[key: string]: any;
-				};
-				console.info("Sending to Web Socket");
-				socket.emit("message", response);
+			await new Promise<void>(resolve => {
+				child.stdout.once("data", (data: Buffer) => {
+					console.log(data.toString());
+					const response = JSON.parse(data.toString()) as {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						[key: string]: any;
+					};
+					console.info("Sending to Web Socket", response);
+					socket.emit("message", response);
+					resolve();
+				});
+			});
+
+			child.stderr.on("data", (data: Buffer) => {
+				console.error(`stderr: ${data.toString()}`);
 			});
 		} catch (error) {
 			console.error(error);

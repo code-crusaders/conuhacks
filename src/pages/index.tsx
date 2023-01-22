@@ -16,6 +16,7 @@ type Message = {
 	};
 	text: string;
 	timestamp: string;
+	summary: string;
 };
 
 const Home: NextPage = () => {
@@ -51,9 +52,10 @@ const Home: NextPage = () => {
 			<Header />
 			<main className={styles.background}>
 				{messages.map((message, i) => (
-					<BubbleDetail key={i} name={message.username} avatar={message.avatar} text={message.text} />
+					<BubbleDetail key={i} name={message.username} avatar={message.avatar} text={message.summary} />
 				))}
 			</main>
+			<div>{JSON.stringify(messages)}</div>
 		</>
 	);
 };

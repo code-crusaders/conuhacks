@@ -25,7 +25,7 @@ client.on("messageCreate", message => {
 	const avatar = message.author.displayAvatarURL();
 	const roles = guild?.roles.cache.filter(r => r.members.has(message.author.id)).map(r => r.name);
 	const channel = guild?.channels.cache.filter(c => c.id === message.channelId);
-	const text = message.content.replace(/@\d+)/g, (match, id) => {
+	const text = message.content.replace(/@(\d+)/g, (match, id) => {
 		const user = client.users.cache.get(id);
 		return user ? `@${user.username}` : match;
 	});
@@ -54,8 +54,12 @@ client.on("messageCreate", message => {
 
 	child.stdout.once("data", data => {
 		const response = JSON.parse(data.toString());
-		console.info("Sending to Web Socket");
+		console.info("Sending to Web Socket", response);
 		socket.emit("message", response);
+	});
+
+	child.stderr.on("data", (data) => {
+		console.error(`stderr: ${data.toString()}`);
 	});
 });
 
