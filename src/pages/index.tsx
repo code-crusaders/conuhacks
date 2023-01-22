@@ -2,12 +2,9 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import BubbleDetail from "../components/BubbleDetail";
 import Header from "../components/Header";
 import styles from "../styles/Home.module.css";
-import BubbleDetail from "../components/BubbleDetail";
-import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
-import { text } from "stream/consumers";
 
 type Message = {
 	username: string;
@@ -54,7 +51,7 @@ const Home: NextPage = () => {
 			<Header />
 			<main className={styles.background}>
 				{messages.map((message, i) => (
-					<BubbleDetail name={message.username} avatar={message.avatar} text={message.text}/>
+					<BubbleDetail key={i} name={message.username} avatar={message.avatar} text={message.text} />
 				))}
 			</main>
 		</>
