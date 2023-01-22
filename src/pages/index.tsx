@@ -1,9 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import Header from "../components/Header";
 import styles from "../styles/Home.module.css";
-import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
 
 type Message = {
 	username: string;
