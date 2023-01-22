@@ -1,5 +1,4 @@
-$size: 300px;
-vw
+$size: 250px;
 
 .x{
   animation: x 13s linear infinite alternate;
@@ -11,8 +10,8 @@ vw
 
 .blob{
   animation: shift 8s linear infinite;
-  background-color: var(--yellow);
   position: fixed;
+  background-color: var(--yellow);
   display: flex;
   justify-content: center;
   align-items: center;
