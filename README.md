@@ -14,3 +14,7 @@ React.js
 Node.js
 Websocket
 SQLite
+SASjs
+Prisma
+Typescript
+zod
