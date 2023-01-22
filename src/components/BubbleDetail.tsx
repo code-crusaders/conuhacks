@@ -32,7 +32,7 @@ export default function BubbleDetail() {
 						</main>
 					</section>
 				</div>
-			</div>		
+			</div>
 		</div>
 	);
 }

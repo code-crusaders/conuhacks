@@ -47,6 +47,12 @@ export const authOptions: NextAuthOptions = {
 		}),
 	],
 	secret: env.NEXTAUTH_SECRET,
+	theme: {
+		brandColor: "#4f0e00",
+		logo: "/logo.svg",
+		buttonText: "Sign in",
+		colorScheme: "dark",
+	}
 };
 
 export default NextAuth(authOptions);

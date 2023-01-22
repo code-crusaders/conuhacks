@@ -1,8 +1,13 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { trpc } from "../utils/api";
 import styles from "./header.module.scss";
 
 export default function Header() {
 	const { data: sessionData } = useSession();
+
+	const image = trpc.user.getImage.useQuery({ id: sessionData?.user?.id ?? "" }).data;
+
 	return (
 		<nav className={styles.nav}>
 			<div className={styles.logo}>LOGO</div>
@@ -11,7 +16,7 @@ export default function Header() {
 				{sessionData ? "Sign out" : "Sign in"}
 			</button>
 
-			<div className={styles.profile}></div>
+			{image && <Image className={styles.profile} src={image} alt="Profile" width={40} height={40} />}
 		</nav>
 	);
 }
