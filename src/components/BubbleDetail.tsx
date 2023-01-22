@@ -1,5 +1,3 @@
-import "./bubble.module.scss";
-
 export default function BubbleDetail() {
 	return (
 		<section id="postContainer">
