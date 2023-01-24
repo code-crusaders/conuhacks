@@ -1,46 +1,14 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import BubbleDetail from "../components/BubbleDetail";
 import Header from "../components/Header";
 import styles from "../styles/Home.module.css";
-
-type Message = {
-	username: string;
-	avatar: string;
-	roles?: string[];
-	channel: {
-		name: string;
-		description: string;
-	};
-	text: string;
-	timestamp: string;
-	summary: string;
-};
+import { trpc } from "../utils/api";
 
 const Home: NextPage = () => {
-	const [messages, setMessages] = useState<Message[]>([]);
-
-	useEffect(() => {
-		const socket = io("http://localhost:3001");
-
-		socket.on("connect", () => {
-			console.info("Connected");
-		});
-
-		socket.on("disconnect", () => {
-			console.info("Disconnected");
-		});
-
-		socket.on("message", (message: Message) => {
-			setMessages(prevMessages => [...new Set([...prevMessages, message])]);
-		});
-
-		return () => {
-			socket.disconnect();
-		};
-	}, []);
+	const messages = trpc.messages.get.useQuery(undefined, {
+		refetchInterval: 10000,
+	}).data ?? [];
 
 	return (
 		<>
@@ -52,7 +20,7 @@ const Home: NextPage = () => {
 			<Header />
 			<main className={styles.background}>
 				{messages.map((message, i) => (
-					<BubbleDetail key={i} name={message.username} avatar={message.avatar} text={message.summary} />
+					<BubbleDetail key={i} name={message.username} avatar={message.avatar} text={message.summary ?? message.text} />
 				))}
 			</main>
 			<div>{JSON.stringify(messages)}</div>

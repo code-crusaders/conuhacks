@@ -31,11 +31,9 @@
     "../postcss.config.cjs",
     "../prettier.config.cjs",
     "../tailwind.config.cjs"
-, "src/discord/process.cks", "sockets/socket.mjs"  ],
+  ],
   "exclude": [
     "node_modules",
     "python",
-    "socket",
-    "discord"
   ]
 }

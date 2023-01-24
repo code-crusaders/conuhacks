@@ -18,6 +18,6 @@ export const userRouter = createTRPCRouter({
 				},
 			});
 
-			return user?.image;
+			return user?.image ?? null;
 		}),
 });

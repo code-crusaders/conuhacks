@@ -1,9 +1,7 @@
 import { spawn } from "child_process";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { io } from "socket.io-client";
 import { env } from "../../../env/server.mjs";
-
-const socket = io("http://localhost:3001");
+import fs from "fs";
 
 const timestampsCache: Set<string> = new Set();
 
@@ -42,31 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				timestamp,
 			};
 
-			const child = spawn("python", ["./python/process.py", JSON.stringify(data)]);
-
-			// Only capture the first message for each timestamp
-			if (timestampsCache.has(timestamp)) {
-				return;
-			}
-			timestampsCache.add(timestamp);
-			console.log(timestampsCache);
-
-			await new Promise<void>(resolve => {
-				child.stdout.once("data", (data: Buffer) => {
-					console.log(data.toString());
-					const response = JSON.parse(data.toString()) as {
-						// eslint-disable-next-line @typescript-eslint/no-explicit-any
-						[key: string]: any;
-					};
-					console.info("Sending to Web Socket", response);
-					socket.emit("message", response);
-					resolve();
-				});
-			});
-
-			child.stderr.on("data", (data: Buffer) => {
-				console.error(`stderr: ${data.toString()}`);
-			});
+			spawn("python", ["./python/process.py", JSON.stringify(data)]);
+			console.log("Running python script", data);
 		} catch (error) {
 			console.error(error);
 		}

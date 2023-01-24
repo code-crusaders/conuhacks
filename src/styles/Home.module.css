@@ -1,6 +1,6 @@
 .background {
     background: var(--dark);
     height: calc(100vh - var(--navbar-height));
-    overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
 }

@@ -1,10 +1,8 @@
 import { spawn } from "child_process";
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
+import fs from "fs/promises";
 dotenv.config();
-import io from "socket.io-client";
-
-const socket = io("http://localhost:3001");
 
 const timestampsCache = new Set();
 
@@ -16,7 +14,7 @@ client.on("ready", () => {
 	console.log("Discord bot is listening!");
 });
 
-client.on("messageCreate", message => {
+client.on("messageCreate", async message => {
 	if (message.author.bot) return;
 
 	if (!message.guildId) return;
@@ -43,24 +41,7 @@ client.on("messageCreate", message => {
 		timestamp,
 	};
 
-	const child = spawn("python", ["./python/process.py", JSON.stringify(data)]);
-
-	// Only capture the first message for each timestamp
-	if (timestampsCache.has(timestamp)) {
-		return;
-	}
-	timestampsCache.add(timestamp);
-	console.log(timestampsCache);
-
-	child.stdout.once("data", data => {
-		const response = JSON.parse(data.toString());
-		console.info("Sending to Web Socket", response);
-		socket.emit("message", response);
-	});
-
-	child.stderr.on("data", (data) => {
-		console.error(`stderr: ${data.toString()}`);
-	});
+	spawn("python", ["./python/process.py", JSON.stringify(data)]);
 });
 
 client.login(process.env.DISCORD_TOKEN);

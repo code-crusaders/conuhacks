@@ -18,28 +18,13 @@ try:
     """
     Import data
     """
-    with open("data.txt", "w") as f:
-        f.write(newEntry + "\n")
+    array = [json.loads(newEntry)]
 
-    def updateData(fileName, keepXLines):
-        with open(fileName) as file:
-            data = [line.rstrip() for line in file]
-        if len(data) > keepXLines:
-            with open(fileName, "w") as f:
-                for i in range(keepXLines):
-                    f.write(
-                        data[-(keepXLines + 1 - i) : -(keepXLines + 1 - i - 1)][0]
-                        + "\n"
-                    )
-
-    # updateData("data.txt", 50)
-    file = open("data.txt", "r")
-    Lines = file.readlines()
-    array = []
-
-    for line in Lines:
+    with open("data.txt", "r") as f:
+        Lines = f.readlines()
         # Parse each line as JSON
-        array.append(json.loads(line))
+        for line in Lines:
+            array.append(json.loads(line))
 
     data = pd.DataFrame(array)
 
@@ -160,6 +145,11 @@ try:
     newEntry = json.loads(newEntry)
     newEntry["summary"] = finalString
     newEntry = json.dumps(newEntry)
+
     print(newEntry)
+
+    # Append JSON object to file
+    with open("data.txt", "a") as f:
+        f.write(newEntry + "\n")
 except ValueError:
     print("[]")

@@ -1,118 +1,122 @@
 $size: 250px;
 
-.x{
-  animation: x 13s linear infinite alternate;
+.x {
+	position: absolute;
+	transition: 1s;
+	animation: x 13s linear infinite alternate;
 }
 
-.y{
-  animation: y 7s linear infinite alternate;
+.y {
+	position: absolute;
+	animation: y 7s linear infinite alternate;
 }
 
-.blob{
-  animation: shift 8s linear infinite;
-  position: fixed;
-  background-color: var(--yellow);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: $size;
-  height: $size;
-  transition: border-radius 1s linear 1s;
+:is(.x, .y):hover {
+	z-index: 1;
+}
+
+.blob {
+	animation: shift 8s linear infinite alternate;
+	border-radius: 30% 70% 70% 30% / 30% 47% 53% 70%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: $size;
+	transition: 1s;
 }
 
 /*BLOB ANIMATION*/
 @keyframes shift {
-  from, to {
-    border-radius: 30% 70% 70% 30% / 30% 47% 53% 70%;
-    transform: translate(500px,100px) scale(1, 1);
-  }
-  25% {
-    border-radius: 45% 55% 57% 43% / 61% 39% 61% 39%;
-    transform: (-100px, -50px) scale(0.75, 1);
-  }
-  50% {
-    border-radius: 52% 48% 42% 58% / 64% 55% 45% 36%;
-    transform: translate(500px,100px) scale(0.7, 0.7);
-  }
-  75%{
-    border-radius: 50% 50% 23% 77% / 64% 52% 48% 36%;
-    transform: (-100px, -50px) rotate(-90deg) scale (0.85, 0.85);
-  }
+	from,
+	to {
+		border-radius: 30% 70% 70% 30% / 30% 47% 53% 70%;
+		transform: scale(1, 1);
+	}
+	25% {
+		border-radius: 45% 55% 57% 43% / 61% 39% 61% 39%;
+		transform: scale(0.75, 1);
+	}
+	50% {
+		border-radius: 52% 48% 42% 58% / 64% 55% 45% 36%;
+		transform: scale(0.7, 0.7);
+	}
+	75% {
+		border-radius: 50% 50% 23% 77% / 64% 52% 48% 36%;
+		transform: scale(0.85, 0.85);
+	}
 }
 
 /*TURN TO POST WHEN HOVER*/
-:is(.x, .y ):has(.blob:hover){
-    animation-play-state: paused;
+:is(.x, .y):has(.blob:hover) {
+	animation-play-state: paused;
+}
+
+.blob:hover {
+	background-color: transparent;
 }
 
 /*#MOVE BLOB*/
 @keyframes x {
-  100% {
-    transform: translateX( calc(50vw - #{$size}) );
-  }
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(calc(100vw - #{$size}));
+	}
 }
 
 @keyframes y {
-  100% {
-    transform: translateY( calc(50vh - #{$size}) );
-  }
+	from {
+	}
+
+	to {
+		transform: translateY(calc(100vh - #{$size} - var(--navbar-height)));
+	}
 }
 
 /*POST STYLE*/
 .blob:hover .postContainer {
-  scale: 1;
+	scale: 1;
 }
 
 .blob:hover {
-  border-radius: 0;
-  animation-play-state: paused;
+	border-radius: 0;
+	animation-play-state: paused;
 }
 
 .postContainer {
-    transition: 400ms;
-    scale: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: var(--width);
-    height: var(--height);
-    border-radius: var(--border-radius);
-    background-color: var(--light-yellow);
-}
-
-.userInfo {
-    width: var(--width);
-    height: calc(var(--height) * 0.15);
-    border-top-right-radius: var(--border-radius);
-    border-top-left-radius: var(--border-radius);
-    background-color: var(--yellow);
+	transition: 400ms;
+	scale: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	border-radius: 1rem;
+	overflow: hidden;
 }
 
 .poster {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem;
+	width: 100%;
 }
 
 .icon {
-    padding: var(--padding);
-    padding-bottom: 5px;
-}
-
-.username {
-    width:fit-content;
-    height: fit-content;
-    margin-right: calc(var(--width) * 0.7);
+	aspect-ratio: 1;
+	width: 3rem;
+	border-radius: 50%;
 }
 /*#endregion*/
 
 /*#region MIDDLE*/
 .textbox {
-    width: calc(var(--width) * 0.9);
-    min-height: 175px;
-    display: block;
-    flex-grow: 1;
-    overflow-y: auto;
+	width: 100%;
+	padding: 1rem;
+	text-align: center;
 }
 /*#endregion*/
