@@ -1,9 +1,6 @@
 import { spawn } from "child_process";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "../../../env/server.mjs";
-import fs from "fs";
-
-const timestampsCache: Set<string> = new Set();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	// Disable CORS

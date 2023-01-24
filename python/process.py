@@ -26,15 +26,19 @@ with open("data.txt", "r") as f:
     for line in Lines:
         array.append(json.loads(line))
 
+
 def updateData(fileName, keepXLines):
     with open(fileName) as file:
         data = [line.rstrip() for line in file]
-    if len(data)>keepXLines:    
-        with open(fileName, 'w') as f:
-            for i in range(keepXLines-1):
-                f.write(data[-(keepXLines + 1-i):-(keepXLines + 1-i-1)][0] + "\n")      
-        
-updateData('data.txt', 50)
+    if len(data) > keepXLines:
+        with open(fileName, "w") as f:
+            for i in range(keepXLines - 1):
+                f.write(
+                    data[-(keepXLines + 1 - i) : -(keepXLines + 1 - i - 1)][0] + "\n"
+                )
+
+
+updateData("data.txt", 50)
 
 
 data = pd.DataFrame(array)
@@ -62,6 +66,7 @@ data = data[data["channel"] == data["channel"].iloc[-1]]
 Convert a list of strings into a summarized form using metaTextAI pre trained models through their API
 """
 
+
 async def textSummary(textsToSummarize):
     try:
         fetch_requests = []
@@ -81,9 +86,11 @@ async def textSummary(textsToSummarize):
     except Exception as e:
         pass
 
+
 """
 Extract main keywords from a string by using metaTextAI pre trained models through their API
 """
+
 
 async def extractKeywords(message):
     try:
@@ -104,23 +111,27 @@ async def extractKeywords(message):
     except Exception as e:
         pass
 
+
 def getGroupedMessagesWithinXMin(data, minutes, lastXMessages):
     groupedMsg = ""
     for i in range(lastXMessages):
-        if data["timestamp"].iloc[i] >= data["timestamp"].iloc[
-            -1
-        ] - datetime.timedelta(0, 60 * minutes):
+        if data["timestamp"].iloc[i] >= data["timestamp"].iloc[-1] - datetime.timedelta(
+            0, 60 * minutes
+        ):
             groupedMsg = groupedMsg + data["text"].iloc[i] + "\n"
     return groupedMsg
+
 
 # Just 1 message at a time but pull requests setup with lists so use list
 message = getGroupedMessagesWithinXMin(data, 5, 1)
 array_of_messages = list([message])
 
+
 async def textSummaryAndKeywordsExtractCall(array_of_messages):
     text_summarized = await textSummary(array_of_messages)
     text_extracted = await extractKeywords(array_of_messages)
     return [text_summarized, text_extracted]
+
 
 async def getFinalString():
     global finalString
@@ -131,7 +142,9 @@ async def getFinalString():
         ]
     )
 
+
 asyncio.run(getFinalString())
+
 
 def getLastRelevantMessage(data):
     relevantWords = [
@@ -148,6 +161,7 @@ def getLastRelevantMessage(data):
     for ele in relevantWords:
         if ele in lastMsg:
             return "Relevant Message:--- " + lastMsg
+
 
 if getLastRelevantMessage(data) is not None:
     finalString = finalString + getLastRelevantMessage(data)

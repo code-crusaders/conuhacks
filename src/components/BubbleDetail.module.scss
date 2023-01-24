@@ -23,6 +23,7 @@ $size: 250px;
 	align-items: center;
 	width: $size;
 	transition: 1s;
+	font-size: 1.5rem;
 }
 
 /*BLOB ANIMATION*/
@@ -84,6 +85,7 @@ $size: 250px;
 .blob:hover {
 	border-radius: 0;
 	animation-play-state: paused;
+	transform: scale(1) !important;
 }
 
 .postContainer {
@@ -91,7 +93,7 @@ $size: 250px;
 	scale: 0;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
 	justify-content: center;
 	position: relative;
 	border-radius: 1rem;
