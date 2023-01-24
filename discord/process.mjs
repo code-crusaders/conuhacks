@@ -1,10 +1,7 @@
 import { spawn } from "child_process";
 import { Client, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-import fs from "fs/promises";
 dotenv.config();
-
-const timestampsCache = new Set();
 
 const client = new Client({
 	intents: [GatewayIntentBits.GuildMessages, GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent],
@@ -38,10 +35,12 @@ client.on("messageCreate", async message => {
 			description: channel?.topic,
 		},
 		text,
-		timestamp,
+		// Convert to epoch timestamp
+		timestamp: timestamp.getTime() / 1000,
 	};
 
 	spawn("python", ["./python/process.py", JSON.stringify(data)]);
+	console.log("Message sent to Python", data);
 });
 
 client.login(process.env.DISCORD_TOKEN);
