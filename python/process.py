@@ -26,6 +26,17 @@ with open("data.txt", "r") as f:
     for line in Lines:
         array.append(json.loads(line))
 
+def updateData(fileName, keepXLines):
+    with open(fileName) as file:
+        data = [line.rstrip() for line in file]
+    if len(data)>keepXLines:    
+        with open(fileName, 'w') as f:
+            for i in range(keepXLines-1):
+                f.write(data[-(keepXLines + 1-i):-(keepXLines + 1-i-1)][0] + "\n")      
+        
+updateData('data.txt', 50)
+
+
 data = pd.DataFrame(array)
 
 # Remove duplicate data (Slack API making 2 calls for some reason so dealing with this here)
